@@ -1,5 +1,76 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900);
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700);
+
+.roboto {
+    font-family: "Roboto";
 }
+.roboto-c {
+    font-family: "Roboto Condensed";
+}
+
+span {
+    display: block;
+    font-size: 2em;
+}
+
+.fw-100 { font-weight: 100; }
+.fw-300 { font-weight: 300; }
+.fw-400 { font-weight: 400; }
+.fw-500 { font-weight: 500; }
+.fw-700 { font-weight: 700; }
+.fw-900 { font-weight: 900; }
+
+.no-variant {
+    color: #b13131;
+}
+.no-variant::after {
+    background-color: #b13131;
+    color: #eee;
+    content: 'Does not exist in font family';
+    font-family: Arial;
+    font-size: .5em;
+    margin-left: .25em;
+    padding: .25em;
+    vertical-align: top;
+}
+
+body{
+  font-family: Roboto;
+  margin: 0;
+  color:#fff;
+}
+
+.dashboard{
+  display: grid;
+  grid-template-columns: 256px auto;
+  grid-template-rows: 64px auto;
+}
+
+.avatar{
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-family: Roboto, sans serif;
+  color: #8DCEF8;
+  background-color: #4E4E4E;
+}
+.appLogoBar{
+  position: 'relative';
+  margin: 'auto';
+  width: '100%';
+  height: 'auto';
+}
+.aside{
+  position: relative;
+  background-color: #232222;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 64px auto;
+
+}
+/*
+.box {
+  background-color: #444;
+  color: #fff;
+  font-size: 150%;
+}*/
