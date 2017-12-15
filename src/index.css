@@ -62,7 +62,7 @@ body{
 }
 .aside{
   position: relative;
-  background-color: #232222;
+  background-color: #363535;
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: 64px auto;
