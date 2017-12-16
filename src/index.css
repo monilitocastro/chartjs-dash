@@ -33,6 +33,9 @@ span {
     padding: .25em;
     vertical-align: top;
 }
+.ignorethisselector{
+  color: #D35600;
+}
 
 body{
   font-family: Roboto;
@@ -68,6 +71,7 @@ body{
   grid-template-rows: 64px auto;
 
 }
+
 /*
 .box {
   background-color: #444;

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import * as actions from '../../actions/index';
+
 // custom material design
 import Tab from './tab';
 
@@ -20,7 +21,7 @@ class VerticalTabs extends Component{
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('componentWillReceiveProps VERT2', nextProps);
+        // console.log('componentWillReceiveProps VERT2', nextProps);
         this.setState({
             asideTabContext: nextProps.tabContexts.asideTabContext,
             selectedId: nextProps.tabContexts.selectedId
@@ -57,7 +58,7 @@ class VerticalTabs extends Component{
 }
 
 function mapStateToProps(state){
-    // this is closed for modification
+    // this is closed for modification (VerticalTabs)
     return {
         tabContexts: state.tabContexts
     }

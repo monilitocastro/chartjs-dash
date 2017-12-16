@@ -6,7 +6,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // custom material user interface
 import Avatar from './ui/avatar';
 import Aside from './ui/aside';
-import Header from './ui/header'
+import Header from './ui/header';
+import MainPanel from './ui/mainpanel';
 
 class Dashboard extends Component {
 
@@ -17,7 +18,7 @@ class Dashboard extends Component {
           <Avatar />
           <Header />
           <Aside />
-          <div className="box d"></div>
+          <MainPanel />
         </div>
       </MuiThemeProvider>
     );

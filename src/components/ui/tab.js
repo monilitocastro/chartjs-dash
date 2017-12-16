@@ -11,7 +11,7 @@ const Tab = (props)=>{
     return <MenuItem onClick={(ev)=>{
         props.selectTab(groupName, id);
     }}
-    style={isHighlighted?{color:'#ddd'}:{color:'#999'}}>{text}</MenuItem>
+    style={isHighlighted?{color:'#D35600',borderLeft:'3px solid #D35600'}:{color:'#999', borderLeft:0}}>{text}</MenuItem>
 };
 
 export default Tab;
