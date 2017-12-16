@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+
+import { connect } from 'react-redux';
+import * as actions from '../../actions/index';
 // custom material design
 import Tab from './tab';
 
@@ -9,34 +12,58 @@ import Tab from './tab';
  */
 class VerticalTabs extends Component{
     static propTypes = {
-        groupName: PropTypes.string.isRequired, 
-        menuItems: PropTypes.array.isRequired, 
-        selectedId: PropTypes.string.isRequired,
-        updateTabSelection: PropTypes.func.isRequired
+        groupName: PropTypes.string.isRequired
     };
     constructor(props){
         super(props);
         this.state={};
     }
-    render(){
-        const { groupName, menuItems, /*selectedId,*/ updateTabSelection } = this.props;
+
+    componentWillReceiveProps(nextProps){
+        console.log('componentWillReceiveProps VERT2', nextProps);
+        this.setState({
+            asideTabContext: nextProps.tabContexts.asideTabContext,
+            selectedId: nextProps.tabContexts.selectedId
+        });
+    }
+
+    componentWillMount(){
+        // console.log('componentWillMount VERT', this.props);
+        this.props.getTabs(this.props.groupName);
+    }
+
+    renderMenuItems(menuItems){
         const menuList = [];
-        if(!menuItems){
+
+    }
+
+    render(){
+        if( this.state.asideTabContext && 
+            this.state.asideTabContext.menuItems && 
+            this.state.asideTabContext.groupName &&
+            this.props.selectTab){
+            const { groupName, menuItems } = this.state.asideTabContext;
+            const selectTab = this.props.selectTab;
+            const menuList = menuItems.map( (item)=>{
+                const {text, id} = item;
+                const isHighlighted = (this.state.selectedId!==undefined)|| (this.state.selectedId!==null)? this.state.selectedId===id: false;
+                return (<Tab groupName={groupName} isHighlighted={isHighlighted} text={text} id={id} key={id} selectTab={selectTab}/>);
+            });
+            return(menuList);
+        }else{
             return(<div></div>);
         }
-        menuItems.map( (item)=>{
-            const {text, id} = item;
-            menuList.push(<Tab groupName={groupName} updateTabSelection={updateTabSelection} text={text} id={id} key={id} />);
-        });
-        return(
-            <div>
-                { menuList }
-            </div>
-        )
     }
 }
 
-export default VerticalTabs;
+function mapStateToProps(state){
+    // this is closed for modification
+    return {
+        tabContexts: state.tabContexts
+    }
+}
+
+export default connect(mapStateToProps, actions)(VerticalTabs);
 
 /**
  * JSON shape 

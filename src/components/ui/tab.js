@@ -7,12 +7,11 @@ import MenuItem from 'material-ui/MenuItem';
  * @param {*} props 
  */
 const Tab = (props)=>{
-    const {text, id, updateTabSelection, groupName} = props;
-    <MenuItem 
-    onClick={(ev)=>{
-        updateTabSelection(groupName, id);
+    const {text, id, selectTab, groupName, isHighlighted} = props;
+    return <MenuItem onClick={(ev)=>{
+        props.selectTab(groupName, id);
     }}
-    style={{color:'#aaa'}}>{text}</MenuItem>
+    style={isHighlighted?{color:'#ddd'}:{color:'#999'}}>{text}</MenuItem>
 };
 
 export default Tab;

@@ -22,11 +22,12 @@ const Aside = (props) => {
               style={{backgroundColor:'#4E4E4E'}}
               titleStyle={{fontFamily:'Roboto', fontWeight:'100', textAlign:'center'}}
             />
-            <VerticalTabs />
+            <VerticalTabs groupName='measurements_and_panels'/>
           </Drawer>
         </div>
       </div>
     );
   }
+
 
 export default Aside;

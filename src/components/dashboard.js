@@ -9,23 +9,6 @@ import Aside from './ui/aside';
 import Header from './ui/header'
 
 class Dashboard extends Component {
-  constructor(props) {
-    super(props);
-    const {tabContexts} = props;
-    this.state = {
-      tabContexts
-    }
-  }
-  // TODO use Redux
-  updateTabSelection((groupName, id)){
-    const { tabContexts } = this.state;
-    tabContexts.map((item, i)=>{
-      if(item.tabContext.groupName===groupName){
-        //item.tabContext.selectedId = id;
-        this.setState({tabContexts:{}});
-      }
-    });
-  }
 
   render() {
     return (
