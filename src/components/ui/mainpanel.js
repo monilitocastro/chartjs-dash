@@ -8,6 +8,9 @@ import * as actions from '../../actions/index';
 // import BloodPanelBand from './screens/bands/bloodpanelband.js';
 // import LiverPanelBand from './screens/bands/liverpanelband.js';
 
+// import fields
+import ReactChart from './screens/fields/reactchart.js';
+
 class MainPanel extends Component{
     constructor(props){
         super(props);
@@ -23,6 +26,7 @@ class MainPanel extends Component{
     render(){
         return(
           <div className="main-panel">
+              <ReactChart />
           </div>
         );
     }
