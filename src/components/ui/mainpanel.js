@@ -3,13 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/index';
 
-// // import BANDS
-// import CardiologyBand from './screens/bands/cardiologyband.js';
-// import BloodPanelBand from './screens/bands/bloodpanelband.js';
-// import LiverPanelBand from './screens/bands/liverpanelband.js';
-
-// import fields
-import ReactChart from './screens/fields/reactchart.js';
+// import screen
+import VitalSignsScreen from './screens/vitalsignsscreen';
 
 class MainPanel extends Component{
     constructor(props){
@@ -26,7 +21,7 @@ class MainPanel extends Component{
     render(){
         return(
           <div className="main-panel">
-              <ReactChart />
+              <VitalSignsScreen />
           </div>
         );
     }
