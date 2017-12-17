@@ -78,6 +78,18 @@ body{
   grid-template-rows: 350px 350px;
 }
 
+.interactive-chart{
+  position: relative;
+  display: grid;
+  grid-template-columns: 80% 20%;
+  margin-top: 80px;
+  margin-right: 80px;
+  margin-left: 110px;
+}
+
+.interactive-chart-time-controls{
+  margin-top: 140px;
+}
 /*
 .box {
   background-color: #444;
