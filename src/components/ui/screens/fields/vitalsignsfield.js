@@ -3,6 +3,7 @@ import HeartRateLineChart from '../../chartjs/heartratelinechart';
 
 import { connect } from 'react-redux';
 import * as actions from '../../../../actions/index';
+import update from 'immutability-helper';
 
 class VitalSignsField extends Component{
     constructor(props){
@@ -48,26 +49,31 @@ class VitalSignsField extends Component{
             return (<div></div>)
         }
     }
-    buildChartJS(label, text, dates, values){
+    buildChartJS(labelMutable, textMutable, datesMutable, valuesMutable){
+        const label = Object.assign("",labelMutable),
+        text = Object.assign("",textMutable),
+        dates = Object.assign([],datesMutable),
+        values = Object.assign([],valuesMutable);
+
         console.log('values',values)
-    const chartJSON = {
-        chartData: {
-            labels: dates,
-            datasets: [{ 
-                data: values,
-                label,
-                borderColor: "#3e95cd",
-                fill: false
+        const chartJSON = {
+            chartData: {
+                labels: dates,
+                datasets: [{ 
+                    data: values,
+                    label,
+                    borderColor: "#3e95cd",
+                    fill: false
+                }
+                ]
+            },
+            options: {
+                title: {
+                display: true,
+                text
+                }
             }
-            ]
-        },
-        options: {
-            title: {
-            display: true,
-            text
-            }
-        }
-    };
+        };
         console.log('build', chartJSON);
         // this.props.chartData = chartJSON.chartData;
         return chartJSON.chartData;
