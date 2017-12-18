@@ -14,7 +14,7 @@ const HeartRateLineChart = (props) => {
         props.data &&
         props.select &&
         props.buildChartJS){
-        const {label, text, dates, data, select, buildChartJS} = props;
+        const {label, text, dates, data, select, buildChartJS, selectFunction} = props;
         // console.log('buildchartjs', buildChartJS)
         const result = buildChartJS(label, text, dates[select], data[select]);
         console.log('RESULT', result)
@@ -24,9 +24,9 @@ const HeartRateLineChart = (props) => {
                     <Line data={result} />
                 </div>
                 <div className="interactive-chart-time-controls">
-                    <FlatButton label="6 Days Ago"  fullWidth={true} onClick={props.handle6DaysAgo}/>
-                    <FlatButton label="6 Weeks Ago"  fullWidth={true} onClick={props.handle6WeeksAgo}/>
-                    <FlatButton label="6 Months Ago"  fullWidth={true} onClick={props.handle6MonthsAgo}/>
+                    <FlatButton label="6 Days Ago"  fullWidth={true} onClick={()=>{selectFunction('days')}}/>
+                    <FlatButton label="6 Weeks Ago"  fullWidth={true} onClick={()=>{selectFunction('weeks')}}/>
+                    <FlatButton label="6 Months Ago"  fullWidth={true} onClick={()=>{selectFunction('months')}}/>
                 </div>
             </div>
         );

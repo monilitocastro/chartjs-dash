@@ -37,7 +37,11 @@ class VitalSignsField extends Component{
                         text="Heart rates (bpm)"
                         dates={dates}
                         data={heartRates}
-                        select={this.state.heartRatesSelect} />
+                        select={this.state.heartRatesSelect}
+                        selectFunction={(heartRatesSelect)=>{
+                            console.log('select', heartRatesSelect)
+                            this.setState({heartRatesSelect})
+                        }} />
                 </div>
             )
         }else{
