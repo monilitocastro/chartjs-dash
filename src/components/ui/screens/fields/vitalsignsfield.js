@@ -32,12 +32,12 @@ class VitalSignsField extends Component{
                 <div className='quadrant'>
                     <HeartRateLineChart
                         buildChartJS = { 
-                            this.buildChartJS.bind(this)
+                            this.buildChartJS_Multi.bind(this)
                         }
                         label="Heart Rate"
                         text="Heart rates (bpm)"
                         dates={dates}
-                        data={heartRates}
+                        data={[heartRates]}
                         select={this.state.heartRatesSelect}
                         selectFunction={(heartRatesSelect)=>{
                             console.log('select', heartRatesSelect)
@@ -49,10 +49,44 @@ class VitalSignsField extends Component{
             return (<div></div>)
         }
     }
-    buildChartJS(labelMutable, textMutable, datesMutable, valuesMutable){
-        const label = Object.assign("",labelMutable),
-        text = Object.assign("",textMutable),
+    buildChartJS_Multi(labelsMutable, text, datesMutable, valuessMutable){
+        valuessMutable = valuessMutable.map((item)=>{
+            return Object([], item);
+        });
+        const labels = Object.assign([], labelsMutable),
         dates = Object.assign([],datesMutable),
+        valuess = Object.assign([],valuessMutable);
+
+        const datasets = valuess.map((values, i)=>{
+            return {
+                data: values[i],
+                label: labels[i],
+                borderColor: "#3e95cd",
+                fill: false
+
+                }
+            
+        });
+
+        console.log('valuess',valuess)
+        const chartJSON = {
+            chartData: {
+                labels: dates,
+                datasets
+            },
+            options: {
+                title: {
+                display: true,
+                text
+                }
+            }
+        };
+        console.log('build', chartJSON);
+        // this.props.chartData = chartJSON.chartData;
+        return chartJSON;
+    }    
+    buildChartJS(label, text, datesMutable, valuesMutable){
+        const dates = Object.assign([],datesMutable),
         values = Object.assign([],valuesMutable);
 
         console.log('values',values)
@@ -76,7 +110,7 @@ class VitalSignsField extends Component{
         };
         console.log('build', chartJSON);
         // this.props.chartData = chartJSON.chartData;
-        return chartJSON.chartData;
+        return chartJSON;
     }
     
 }

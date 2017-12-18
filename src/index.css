@@ -90,6 +90,14 @@ body{
 .interactive-chart-time-controls{
   margin-top: 140px;
 }
+
+.chart-lab{
+  position: relative;
+  display: grid;
+  grid-template-columns: 85% auto;
+  grid-template-rows: 90% auto;
+  margin: 40px;
+}
 /*
 .box {
   background-color: #444;

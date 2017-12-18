@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import VitalSignsField from './fields/vitalsignsfield';
+import Chart from '../chartjs/chart';
 
 class VitalSignsScreen extends Component{
     constructor(props){
@@ -12,7 +12,12 @@ class VitalSignsScreen extends Component{
             <div className='heart-rate-screen'>
                 <div className='heart-rate-band'></div>
                 <div className='heart-rate-field'>
-                    <VitalSignsField />
+                    <div className='quadrant'>
+                        <Chart />
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
                 </div>
             </div>
         )

@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 // import react chartjs 2
 import { Line } from 'react-chartjs-2';
 
-const HeartRateLineChart = (props) => {
+const LineChart = (props) => {
     console.log('PROPS', props)
     if(props.label && 
         props.text && 
@@ -16,10 +16,7 @@ const HeartRateLineChart = (props) => {
         props.buildChartJS){
         const {label, text, dates, data, select, buildChartJS, selectFunction} = props;
         // console.log('buildchartjs', buildChartJS)
-        const selectedData = data.map((item)=>{
-            return item[select]
-        });
-        const result = buildChartJS(label, text, dates[select], selectedData);
+        const result = buildChartJS(label, text, dates[select], data[select]);
         return(
             <div className="interactive-chart">
                 <div>
@@ -50,4 +47,4 @@ const HeartRateLineChart = (props) => {
 
 }
 
-export default HeartRateLineChart;
+export default LineChart;

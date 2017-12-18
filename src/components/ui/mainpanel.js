@@ -12,7 +12,6 @@ class MainPanel extends Component{
         this.state = {};
     }
     componentWillReceiveProps(nextProps){
-        console.log('componentWillReceiveProps MAINPANEL', nextProps);
         this.setState({
             asideTabContext: nextProps.tabContexts.asideTabContext,
             selectedId: nextProps.tabContexts.selectedId
