@@ -25,7 +25,7 @@ class Chart extends Component{
             dates6Days:[],
             dates6Weeks: [],
             dates6Months: [],
-            selectedTimeFrame: 'charts6Days',
+            selectedTimeFrame: '6Days',
             average: 90,
             spread: 10
         };
@@ -38,19 +38,26 @@ class Chart extends Component{
         const style = {
             marginRight: 20,
         };
-        const { chartType, charts6Days } = this.state;
+        const { chartType, charts6Days, charts6Weeks, charts6Months } = this.state;
         const disabled = (charts6Days.length===0);
-        const Component = <Line />;
+        let data = {};
+        if(this.state['charts'+this.state.selectedTimeFrame]!==undefined){
+            data = this.generateChart.bind(this)();
+        }
+        if(data==={}){
+            return (<div></div>)
+        }
         if(chartType==='Line'){
+            console.log('DATA', data)
             return(
                 <div className='chart-lab'>
                     <div>
-                        <Line options={{maintainAspectRatio: false}} />
+                        <Line data={data} options={{maintainAspectRatio: false}} />
                     </div>
                     <div>
-                        <FlatButton label="6 Days"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('charts6Days')}} disabled={disabled} />
-                        <FlatButton label="6 Weeks"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('charts6Weeks')}} disabled={disabled} />
-                        <FlatButton label="6 Months"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('charts6Months')}} disabled={disabled} />
+                        <FlatButton label="6 Days"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Days')}} disabled={disabled} />
+                        <FlatButton label="6 Weeks"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Weeks')}} disabled={disabled} />
+                        <FlatButton label="6 Months"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Months')}} disabled={disabled} />
                     </div>
                     <div>
                         <FloatingActionButton mini={true} style={style} onClick={()=>{this.addContent.bind(this)()}}>
@@ -68,6 +75,22 @@ class Chart extends Component{
                 <div></div>
             )
         }
+    }
+
+    generateChart(){
+        const chartName = 'charts'+this.state.selectedTimeFrame;
+        const dateName = 'dates'+this.state.selectedTimeFrame;
+        const labels = this.state[dateName];
+        const datasets = this.state[chartName].map((arr)=>{
+            let result = {
+                label: 'Heart Rate',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: Object.assign([], arr)
+            }
+            return result;
+        })
+        return {labels, datasets};
     }
 
 
@@ -162,8 +185,7 @@ class Chart extends Component{
         this.setState({dates6Months});
     }
 
-    selectTimeFrame(t){
-        const selectedTimeFrame = Object.assign("",t);
+    selectTimeFrame(selectedTimeFrame){
         this.setState({selectedTimeFrame})
     }
 
