@@ -16,7 +16,7 @@ const HeartRateLineChart = (props) => {
         props.buildChartJS){
         const {label, text, dates, data, select, buildChartJS} = props;
         // console.log('buildchartjs', buildChartJS)
-        const result = buildChartJS(label, text, dates, data[select]);
+        const result = buildChartJS(label, text, dates[select], data[select]);
         console.log('RESULT', result)
         return(
             <div className="interactive-chart">

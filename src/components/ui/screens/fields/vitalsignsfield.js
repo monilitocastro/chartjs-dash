@@ -30,7 +30,7 @@ class VitalSignsField extends Component{
             return(
                 <div className='quadrant'>
                     <HeartRateLineChart
-                        buildChartJS = {
+                        buildChartJS = { 
                             this.buildChartJS.bind(this)
                         }
                         label="Heart Rate"
@@ -45,6 +45,7 @@ class VitalSignsField extends Component{
         }
     }
     buildChartJS(label, text, dates, values){
+        console.log('dates',dates)
     const chartJSON = {
         chartData: {
             labels: dates,
