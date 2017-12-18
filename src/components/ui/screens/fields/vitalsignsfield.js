@@ -45,7 +45,7 @@ class VitalSignsField extends Component{
         }
     }
     buildChartJS(label, text, dates, values){
-        console.log('dates',dates)
+        console.log('values',values)
     const chartJSON = {
         chartData: {
             labels: dates,
