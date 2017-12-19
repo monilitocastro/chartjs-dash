@@ -57,7 +57,7 @@ body{
   background-color: #4E4E4E;
 }
 .appLogoBar{
-  position: 'relative';
+  position: 'fixed';
   margin: 'auto';
   width: '100%';
   height: 'auto';
@@ -107,8 +107,11 @@ body{
 }
 .grid-layout-bottom-display{
   position: relative;
-  display: grid;
-  grid-template-rows: 108px auto;
+}
+.chart-display{
+  margin-bottom:150px;
+  margin-left:150px;
+  margin-right:150px;
 }
 /*
 .box {

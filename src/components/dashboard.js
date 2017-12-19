@@ -26,28 +26,3 @@ class Dashboard extends Component {
 }
 
 export default Dashboard;
-
-/**
- * JSON shape 
- * {
- * ...
- *  tabContexts: [
- *                  {
- *          'tabContext': {
- *              groupName: String,
- *              menuItems: Array({
- *                  text: String,
- *                  id: String
- *              }),
- *              selectedId: String,
- *              updateTabSelection: Func
- *          }
- *      ...
- *      ]
- *  }
- */
-
-// import Drawer from 'material-ui/Drawer';
-// import MenuItem from 'material-ui/MenuItem';
-// import AppBar from 'material-ui/AppBar';
-
