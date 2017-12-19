@@ -3,6 +3,7 @@ import { Line } from './chartjs';
 import update from 'immutability-helper';
 import randomColor from 'randomcolor';
 import * as d3 from 'd3-interpolate';
+import faker from 'faker';
 
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -14,12 +15,14 @@ class LineChart extends Component{
         super(props);
         this.state={
             sampleData: [[1,2,4,6,2,4],[2,4,3,1,2,4],[1,4,3,5,6,2],[1,2,4,5,3,4]],
+            baseName: 'Body Temperature',
             charts6Days: [],
             charts6Weeks: [],
             charts6Months: [],
             dates6Days:[],
             dates6Weeks: [],
             dates6Months: [],
+            selectedTimeFrame: '6Days',
             data: [{
                 data:[2,4,5,3,4,2],
                 label:'4',
@@ -28,12 +31,50 @@ class LineChart extends Component{
                                 })
         }],
             labels: ["1am", "2am", "3am","4am", "5am", "6am"],
-            counter: 0
+            counter: 0,
+            gendata: {
+                average: 96.8,
+                spread: 5,
+                ticks: 6
+            }
         };
+
+    }    
+    genDataSet( arr, name ){
+        const dataset = {
+            data: arr,
+            label: this.state.baseName + ' ' + name,
+            backgroundColor: randomColor({
+                                hue: 'orange'
+                            })
+        };
+        return dataset;
+    }
+    genDataSet_OLD(){
+        const timeFrameName = 'charts'+this.state.selectedTimeFrame;
+        console.log({timeFrameName})
+        const result = this.state[timeFrameName].map( (item, index)=>{
+            console.log('state var ' + this.state[timeFrameName])
+            console.log({result})
+            const dataset = {
+                data: this.state[timeFrameName][index],
+                label: this.state.baseName + ' ' + index,
+                backgroundColor: randomColor({
+                                    hue: 'orange'
+                                })
+            };
+            console.log('WITH ' + {dataset})
+            return dataset;
+        })
+        console.log({result})
+        return result;
     }
     componentDidMount(){
         // this.setState({interval:this.interval.bind(this)()});
-
+        this.genData.bind(this)(this.state.gendata.average, this.state.gendata.spread, this.state.gendata.ticks);
+        // generate dataset and load into this.state.data
+        const genDataSet = this.genDataSet.bind(this)();
+        console.log({genDataSet})
     }
     interval(){
         return setInterval(()=>{
@@ -52,12 +93,16 @@ class LineChart extends Component{
     }
 
     genData(average, spread, ticks){
+        const fakeName = faker.name.findName();
+        
         if(ticks===0){ return; }
         const arrMonths = [];
         for(var i=0;i<ticks;i++){
             const result = Math.ceil((Math.random()-0.5) * spread) + average;
             arrMonths.push(result)
         }
+        let arrMonthsDS = this.genDataSet.bind(this)(arrMonths, fakeName + ' (past 6 days)');
+        console.log({arrMonthsDS});
         
         const arrWeeks = [];
         let l = arrMonths[ticks-2], r = arrMonths[ticks-1];
@@ -74,6 +119,8 @@ class LineChart extends Component{
             let result = interp(i/ticks) + ((Math.random()-0.5) * (1/ticks) * spread);
             arrWeeks.push(result);
         }
+        let arrWeeksDS = this.genDataSet.bind(this)(arrWeeks, fakeName+ ' (past 6 weeks)');
+        console.log({arrWeeksDS});
 
         const arrDays = [];
         l = arrWeeks[ticks-2]; r = arrWeeks[ticks-1];
@@ -90,16 +137,20 @@ class LineChart extends Component{
             let result = interp(i/ticks) + ((Math.random()-0.5) * (1/ticks) * spread);
             arrDays.push(result);
         }
+        let arrDaysDS = this.genDataSet.bind(this)(arrDays, fakeName + ' (past 6 months)');
+        console.log({arrDaysDS});
+
+        
         const {charts6Days, charts6Weeks, charts6Months} = this.state;
         let temp = Object.assign([], charts6Days);
-        
-        temp = update(charts6Days,{$push: [arrDays]});
+        console.log({arrDays})
+        temp = update(charts6Days,{$push: [arrDaysDS]});
         this.setState({charts6Days: temp});
 
-        temp = update(charts6Weeks, {$push: [arrWeeks] });
+        temp = update(charts6Weeks, {$push: [arrWeeksDS] });
         this.setState({charts6Weeks: temp});
 
-        temp = update(charts6Months, {$push: [arrMonths]});
+        temp = update(charts6Months, {$push: [arrMonthsDS]});
         this.setState({charts6Months: temp});
 
         // const orangey = randomColor({
@@ -137,7 +188,7 @@ class LineChart extends Component{
     }
 
     handleAddButton(){
-        this.genData.bind(this)(96.8, 5, 6);
+        this.genData.bind(this)(this.state.gendata.average, this.state.gendata.spread, this.state.gendata.ticks);
     }
 
     handleRemoveButton(){
