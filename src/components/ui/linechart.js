@@ -25,6 +25,9 @@ class LineChart extends Component{
             dates6Weeks: [],
             dates6Months: [],
             selectedTimeFrame: '6Days',
+            chartLabels6Days: [],
+            chartLabels6Weeks: [],
+            chartLabels6Months: [],
             data: [{
                 data:[2,4,5,3,4,2],
                 label:'4',
@@ -149,6 +152,12 @@ class LineChart extends Component{
         console.log({packedChartsDays})
         this.setState({charts6Days: packedChartsDays, charts6Weeks: packedChartsWeeks, charts6Months: packedChartsMonths});
 
+        // store name
+        const packed6DaysName = this.prepareItemForState(this.state.baseName + ": " + fakeName + " (6 days)", 'chartLabels6Days');
+        const packed6WeeksName = this.prepareItemForState(this.state.baseName + ": " + fakeName + " (6 weeks)", 'chartLabels6Weeks');
+        const packedMonthssName = this.prepareItemForState(this.state.baseName + ": " + fakeName + " (6 Months)", 'chartLabels6Months');
+        this.setState({chartLabels6Days: packed6DaysName, chartLabels6Weeks: packed6WeeksName, chartLabels6Months: packedMonthssName});
+
         // store colors
         const backgroundColors = {
             gradient: [bgColor1, bgColor2],
@@ -246,22 +255,24 @@ class LineChart extends Component{
         const disabled = this.state['charts'+this.state.selectedTimeFrame].length===0;
 
         return(
-            <div>
+            <div className='grid-layout-bottom-display'>
+                <div  className='grid-layout-top-controls'>
+                    <div>
+                        <FloatingActionButton mini={true} style={{marginRight: 20}} onClick={()=>{this.handleAddButton.bind(this)()}}>
+                                <ContentAdd />
+                        </FloatingActionButton>
+                        <FloatingActionButton mini={true} secondary={true} style={{marginRight: 20}} onClick={()=>{this.handleRemoveButton.bind(this)()}}>
+                            <ContentRemove />
+                        </FloatingActionButton>
+                    </div> 
+                    <div>
+                        <FlatButton label="6 Days"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Days')}} disabled={disabled} />
+                        <FlatButton label="6 Weeks"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Weeks')}} disabled={disabled} />
+                        <FlatButton label="6 Months"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Months')}} disabled={disabled} />
+                    </div> 
+                </div>              
                 <div>
                     <Line data={this.keepItFunctional.bind(this)} />
-                </div>
-                <div>
-                    <FlatButton label="6 Days"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Days')}} disabled={disabled} />
-                    <FlatButton label="6 Weeks"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Weeks')}} disabled={disabled} />
-                    <FlatButton label="6 Months"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Months')}} disabled={disabled} />
-                </div>
-                <div>
-                    <FloatingActionButton mini={true} style={{marginRight: 20}} onClick={()=>{this.handleAddButton.bind(this)()}}>
-                            <ContentAdd />
-                    </FloatingActionButton>
-                    <FloatingActionButton mini={true} secondary={true} style={{marginRight: 20}} onClick={()=>{this.handleRemoveButton.bind(this)()}}>
-                        <ContentRemove />
-                    </FloatingActionButton>
                 </div>
             </div>
         )
@@ -309,6 +320,24 @@ class LineChart extends Component{
         const result = Object.assign([], this.state[chartName][i]);
         return result;
     }
+    getDataLabel(name, i){
+        const result = this.state[name][i].slice(0);
+        console.log('GETDATALABEL', result)
+        return result;
+    }
+    getBackgroundColor(ctx, i){
+        console.log('GETBACKGROUNDCOLOR', this.state);
+        const gradient = ctx.createLinearGradient(0,0,50,500);
+        const dataColor = this.state.dataColors[i];
+        if(dataColor.gradient){
+            dataColor.gradient.forEach( (color, i)=>{
+                gradient.addColorStop(i, color);
+            })
+            return gradient;
+        }else{
+            return dataColor.color;
+        }
+    }
     getDataSet_ALT1(chartsName, ctx){
         let dataSetResult = this.state[chartsName];
         console.log('GETDATASET', {dataSetResult})
@@ -346,7 +375,9 @@ class LineChart extends Component{
     getDataSet(chartsName, ctx){
         const result = this.state.dataSets;
         result.forEach( (item, i)=>{
-            item.data = this.getData.bind(this)(chartsName, i);
+            item.data = this.getData.bind(this)('charts'+chartsName, i);
+            item.label = this.getDataLabel.bind(this)('chartLabels'+chartsName, i)
+            item.backgroundColor = this.getBackgroundColor.bind(this)(ctx, i);
         });
 
         console.log('GETDATASET', {result})
@@ -383,7 +414,7 @@ class LineChart extends Component{
     keepItFunctional(canvas){
         const ctx = canvas.getContext("2d")
         console.log({canvas})
-        const datasets = this.getDataSet.bind(this)('charts'+this.state.selectedTimeFrame, ctx);
+        const datasets = this.getDataSet.bind(this)(this.state.selectedTimeFrame, ctx);
         console.log({datasets})
         const result = {
                 labels: this.state.labels,

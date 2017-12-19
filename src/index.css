@@ -98,6 +98,18 @@ body{
   grid-template-rows: 90% auto;
   margin: 40px;
 }
+
+.grid-layout-top-controls{
+  position: relative;
+  display: grid;
+  grid-template-columns: 120px auto;
+  margin: 5px 40px;
+}
+.grid-layout-bottom-display{
+  position: relative;
+  display: grid;
+  grid-template-rows: 108px auto;
+}
 /*
 .box {
   background-color: #444;
