@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/index';
 
-// import screen
-import VitalSignsScreen from './screens/vitalsignsscreen';
+import MyChart from './linechart';
 
 class MainPanel extends Component{
     constructor(props){
@@ -20,7 +19,7 @@ class MainPanel extends Component{
     render(){
         return(
           <div className="main-panel">
-              <VitalSignsScreen />
+              <MyChart />
           </div>
         );
     }

@@ -43,6 +43,7 @@ class Chart extends Component{
         let data = {};
         if(this.state['charts'+this.state.selectedTimeFrame]!==undefined){
             data = this.generateChart.bind(this)();
+            // data = JSON.parse(JSON.stringify(data))
         }
         if(data==={}){
             return (<div></div>)
@@ -52,7 +53,10 @@ class Chart extends Component{
             return(
                 <div className='chart-lab'>
                     <div>
-                        <Line data={data} options={{maintainAspectRatio: false}} />
+                        <Line data={data} options={{maintainAspectRatio: false, scales: {
+                            xAxes: [{ stacked: true }],
+                            yAxes: [{ stacked: true }]
+                        }}} />
                     </div>
                     <div>
                         <FlatButton label="6 Days"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Days')}} disabled={disabled} />
@@ -90,7 +94,8 @@ class Chart extends Component{
             }
             return result;
         })
-        return {labels, datasets};
+        console.log(JSON.stringify({labels, datasets}))
+        return Object.assign({}, {labels, datasets: Object.assign([],datasets) });
     }
 
 
@@ -126,9 +131,17 @@ class Chart extends Component{
             sixDayValues.push(g);
         }
 
-        const { charts6Days, charts6Weeks, charts6Months } = this.state;
+        let { charts6Days, charts6Weeks, charts6Months } = this.state;
+        const newObj = JSON.parse(JSON.stringify( { charts6Days, charts6Weeks, charts6Months } ));
+        charts6Days = newObj.charts6Days;
+        charts6Weeks = newObj.charts6Weeks;
+        charts6Months = newObj.charts6Months;
         const sixDayWrapped = [sixDayValues];
+
+        console.log('sixDayWrapped',JSON.stringify(sixDayWrapped));
         const charts6DaysResults = update(sixDayWrapped , {$push: charts6Days});
+        console.log('charts6DaysResults',JSON.stringify(charts6DaysResults));
+        // const charts6DaysResults = Object.assign(sixDayWrapped, charts6Days);
         this.setState({charts6Days: charts6DaysResults});
         
         const sixWeekWrapped = [sixWeekValues];
@@ -175,9 +188,9 @@ class Chart extends Component{
             const daysResult  =  days.subtract(1, 'days').format('MM/DD/YYYY');
             const weeksResult  = weeks.subtract(1, 'weeks').format('MM/DD/YYYY');
             const monthsResult  = months.subtract(1, 'months').format('MM/DD/YYYY');
-            dates6Days.push(daysResult);
-            dates6Weeks.push(weeksResult);
-            dates6Months.push(monthsResult);
+            dates6Days.unshift(daysResult);
+            dates6Weeks.unshift(weeksResult);
+            dates6Months.unshift(monthsResult);
             console.log(daysResult.toString())
         }
         this.setState({dates6Days});
