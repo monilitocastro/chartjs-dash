@@ -54,16 +54,6 @@ class LineChart extends Component{
         };
         return dataset;
     }
-    genDataSet_OLD( arr, name, color ){
-        console.log('COLOR', color)
-        const dataset = {
-            data: arr,
-            label: this.state.baseName + ' ' + name,
-            backgroundColor: color,
-            fill: true
-        };
-        return dataset;
-    }
     componentDidMount(){
         // this.setState({interval:this.interval.bind(this)()});
         this.genData.bind(this)(this.state.gendata.average, this.state.gendata.spread, this.state.gendata.ticks);
@@ -187,69 +177,6 @@ class LineChart extends Component{
         // console.log({result})
         return result;
     }
-    genData_OLD(average, spread, ticks){
-        const fakeName = faker.name.findName();
-        const color = randomColor({
-            hue: 'orange'
-        });
-        if(ticks===0){ return; }
-        const arrMonths = [];
-        for(var i=0;i<ticks;i++){
-            const result = Math.ceil((Math.random()-0.5) * spread) + average;
-            arrMonths.push(result)
-        }
-        let arrMonthsDS = this.genDataSet.bind(this)(arrMonths, fakeName + ' (past 6 days)', color);
-        console.log({arrMonthsDS});
-        
-        const arrWeeks = [];
-        let l = arrMonths[ticks-2], r = arrMonths[ticks-1];
-        let interp = d3.interpolate(l, r);
-        for(var i=0;i<ticks;i++){
-            if(i===0) {
-                arrWeeks.push(l);
-                continue
-            } 
-            if(i===ticks-1) {
-                arrWeeks.push(r);
-                continue
-            }
-            let result = interp(i/ticks) + ((Math.random()-0.5) * (1/ticks) * spread);
-            arrWeeks.push(result);
-        }
-        let arrWeeksDS = this.genDataSet.bind(this)(arrWeeks, fakeName+ ' (past 6 weeks)', color);
-        console.log({arrWeeksDS});
-
-        const arrDays = [];
-        l = arrWeeks[ticks-2]; r = arrWeeks[ticks-1];
-        interp = d3.interpolate(l, r);
-        for(var i=0;i<ticks;i++){
-            if(i===0) {
-                arrDays.push(l);
-                continue
-            } 
-            if(i===ticks-1) {
-                arrDays.push(r);
-                continue
-            }
-            let result = interp(i/ticks) + ((Math.random()-0.5) * (1/ticks) * spread);
-            arrDays.push(result);
-        }
-        let arrDaysDS = this.genDataSet.bind(this)(arrDays, fakeName + ' (past 6 months)', color);
-        console.log({arrDaysDS});
-        
-        const {charts6Days, charts6Weeks, charts6Months} = this.state;
-        let temp = Object.assign([], charts6Days);
-        console.log({arrDays})
-        temp = update(charts6Days,{$push: [arrDaysDS]});
-        this.setState({charts6Days: temp});
-
-        temp = update(charts6Weeks, {$push: [arrWeeksDS] });
-        this.setState({charts6Weeks: temp});
-
-        temp = update(charts6Months, {$push: [arrMonthsDS]});
-        this.setState({charts6Months: temp});
-        
-    }
     render(){
         if(this.state.counter===4){clearInterval(this.state.interval)};
         const disabled = this.state['charts'+this.state.selectedTimeFrame].length===0;
@@ -286,8 +213,13 @@ class LineChart extends Component{
     }
 
     handleRemoveButton(){
-        const {charts6Days, charts6Weeks, charts6Months} = this.state;
+        const {
+            charts6Days, charts6Weeks, charts6Months,
+            chartLabels6Days, chartLabels6Weeks, chartLabels6Months,
+            dataSets,
+        } = this.state;
 
+        // chart data
         let temp = Object.assign([], charts6Days);
         temp.pop();
         this.setState({charts6Days: temp});
@@ -300,6 +232,26 @@ class LineChart extends Component{
         temp.pop();
         this.setState({charts6Months: temp});
 
+        
+        
+        // chart labels
+        temp = Object.assign([], chartLabels6Days);
+        temp.pop();
+        this.setState({chartLabels6Days: temp});
+
+        temp = Object.assign([], chartLabels6Weeks);
+        temp.pop();
+        this.setState({chartLabels6Weeks: temp});
+
+        temp = Object.assign([], chartLabels6Months);
+        temp.pop();
+        this.setState({chartLabels6Months: temp});
+
+        // dataSet
+        temp = Object.assign([], dataSets);
+        temp.pop();
+        this.setState({dataSets: temp});
+
     }
     hexToRGB(hex) {
         var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -310,19 +262,15 @@ class LineChart extends Component{
             b: parseInt(result[3], 16)
         } : null;
     }
-    getData_OLD(){
-        console.log('GENDATA', this.state)
-        const result = this.state['charts' + this.state.selectedTimeFrame];
-        return result;
-    }
     getData(chartName, i){
         console.log('GETDATA', this.state)
         const result = Object.assign([], this.state[chartName][i]);
         return result;
     }
     getDataLabel(name, i){
+        console.log('GETDATALABEL', this.state)
         const result = this.state[name][i].slice(0);
-        console.log('GETDATALABEL', result)
+        // console.log('GETDATALABEL', result)
         return result;
     }
     getBackgroundColor(ctx, i){
@@ -338,42 +286,9 @@ class LineChart extends Component{
             return dataColor.color;
         }
     }
-    getDataSet_ALT1(chartsName, ctx){
-        let dataSetResult = this.state[chartsName];
-        console.log('GETDATASET', {dataSetResult})
-        const result = this.state.dataSets;
-        const dataColors = this.state.dataColors;
-        console.log('DATACOLORS')
-        console.log(dataColors)
-        if(dataSetResult.length===0){
-            return [];
-        }
-        if(dataColors.length!==dataSetResult.length){
-            console.log('Warning: dataColors and '+ chartsName + ' must match length')
-        }
-        
-        for(var i=0,dclen=dataColors.length; i<dclen;i++){  
-            console.log('EACH DATACOLOR',i, ' = ', dataColors[i]);
-            // result.push({
-            //     backgroundColor: ''
-            // });      
-            // // rules for how to apply background color schemes
-            // if(dataColors[i].gradient){
-            //     const gradient = ctx.createLinearGradient(0,0,0, 600);
-            //     for(var j=0, glen=dataColors[i].gradient.length;j<glen;j++){
-            //         gradient.addColorStop(j, dataColors[i].gradient[j]);
-            //     }
-            //     result[i].backgroundColor = gradient;
-            // }else{
-            //     result[i].backgroundColor = dataColors[i].color;
-            // }
-            // result[i].data = dataSetResult
-        }
-        console.log('GETDATASET', {result});
-        return result;
-    }
     getDataSet(chartsName, ctx){
         const result = this.state.dataSets;
+        console.log('RESULT', result)
         result.forEach( (item, i)=>{
             item.data = this.getData.bind(this)('charts'+chartsName, i);
             item.label = this.getDataLabel.bind(this)('chartLabels'+chartsName, i)
@@ -382,34 +297,6 @@ class LineChart extends Component{
 
         console.log('GETDATASET', {result})
         return result;
-    }
-    getDataSet_OLD(chartsName, ctx){
-        let result = this.state[chartsName];
-        if(result.length===0){
-            return [];
-        }
-        if(typeof result[0].backgroundColor === 'string' ){
-            const rgb = this.hexToRGB.bind(this)(result[0].backgroundColor)
-            console.log({rgb})
-            const gradient = ctx.createLinearGradient(0,0,0, 600);
-            gradient.addColorStop(0, 'orange');
-            gradient.addColorStop(1, 'purple');
-            for(var i=0; i<result.length;i++){
-                result[i].backgroundColor = gradient;
-            }
-        }
-        return result;
-    }
-
-    keepItFunctional_OLD(canvas){
-        const ctx = canvas.getContext("2d")
-        const gradient = ctx.createLinearGradient(0,0,100,0);
-        console.log({canvas})
-        return {
-                labels: this.state.labels,
-                datasets: this.state['charts'+this.state.selectedTimeFrame],
-                backgroundColor: gradient
-        }
     }
     keepItFunctional(canvas){
         const ctx = canvas.getContext("2d")
