@@ -9,6 +9,7 @@ import faker from 'faker';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
+import FlatButton from 'material-ui/FlatButton';
 
 class LineChart extends Component{
     constructor(props){
@@ -168,12 +169,18 @@ class LineChart extends Component{
     }
     render(){
         if(this.state.counter===4){clearInterval(this.state.interval)};
+        const disabled = this.state['charts'+this.state.selectedTimeFrame].length===0;
         console.log({state:this.state})
 
         return(
             <div>
                 <div>
                     <Line data={this.keepItFunctional.bind(this)} />
+                </div>
+                <div>
+                    <FlatButton label="6 Days"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Days')}} disabled={disabled} />
+                    <FlatButton label="6 Weeks"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Weeks')}} disabled={disabled} />
+                    <FlatButton label="6 Months"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Months')}} disabled={disabled} />
                 </div>
                 <div>
                     <FloatingActionButton mini={true} style={{marginRight: 20}} onClick={()=>{this.handleAddButton.bind(this)()}}>
@@ -185,6 +192,9 @@ class LineChart extends Component{
                 </div>
             </div>
         )
+    }
+    selectTimeFrame(selectedTimeFrame){
+        this.setState({selectedTimeFrame})
     }
 
     handleAddButton(){
@@ -214,7 +224,7 @@ class LineChart extends Component{
         console.log({canvas})
         return {
                 labels: this.state.labels,
-                datasets: this.state.data
+                datasets: this.state['charts'+this.state.selectedTimeFrame]
         }
     }
 
