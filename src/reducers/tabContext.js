@@ -1,4 +1,4 @@
-import {SELECT_TAB, GET_MAPT, TABS_FETCH_SUCCESS, WAITING } from '../actions/types';
+import {SELECT_TAB, GET_MAPT, TABS_FETCH_SUCCESS } from '../actions/types';
 
 export function tabContextReducers( state = {}, action ){
     switch(action.type){

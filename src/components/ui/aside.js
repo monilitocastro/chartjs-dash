@@ -16,7 +16,7 @@ const Aside = (props) => {
             containerStyle={{backgroundColor:'#363535'}}
           >
             <AppBar
-              title="Apricity"
+              title="DEMO"
               zDepth={0}
               showMenuIconButton={false}
               style={{backgroundColor:'#4E4E4E'}}
