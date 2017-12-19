@@ -7,6 +7,7 @@ import * as d3 from 'd3-interpolate';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import ContentRemove from 'material-ui/svg-icons/content/remove';
 
 class LineChart extends Component{
     constructor(props){
@@ -57,7 +58,7 @@ class LineChart extends Component{
             const result = Math.ceil((Math.random()-0.5) * spread) + average;
             arrMonths.push(result)
         }
-        console.log({arrMonths})
+        
         const arrWeeks = [];
         let l = arrMonths[ticks-2], r = arrMonths[ticks-1];
         let interp = d3.interpolate(l, r);
@@ -73,7 +74,6 @@ class LineChart extends Component{
             let result = interp(i/ticks) + ((Math.random()-0.5) * (1/ticks) * spread);
             arrWeeks.push(result);
         }
-        console.log({arrWeeks})
 
         const arrDays = [];
         l = arrWeeks[ticks-2]; r = arrWeeks[ticks-1];
@@ -90,13 +90,10 @@ class LineChart extends Component{
             let result = interp(i/ticks) + ((Math.random()-0.5) * (1/ticks) * spread);
             arrDays.push(result);
         }
-        console.log({arrDays})
         const {charts6Days, charts6Weeks, charts6Months} = this.state;
         let temp = Object.assign([], charts6Days);
-        console.log({temp})
         
         temp = update(charts6Days,{$push: [arrDays]});
-        console.log({temp})
         this.setState({charts6Days: temp});
 
         temp = update(charts6Weeks, {$push: [arrWeeks] });
@@ -131,6 +128,9 @@ class LineChart extends Component{
                     <FloatingActionButton mini={true} style={{marginRight: 20}} onClick={()=>{this.handleAddButton.bind(this)()}}>
                             <ContentAdd />
                     </FloatingActionButton>
+                    <FloatingActionButton mini={true} secondary={true} style={{marginRight: 20}} onClick={()=>{this.handleRemoveButton.bind(this)()}}>
+                        <ContentRemove />
+                    </FloatingActionButton>
                 </div>
             </div>
         )
@@ -138,6 +138,23 @@ class LineChart extends Component{
 
     handleAddButton(){
         this.genData.bind(this)(96.8, 5, 6);
+    }
+
+    handleRemoveButton(){
+        const {charts6Days, charts6Weeks, charts6Months} = this.state;
+
+        let temp = Object.assign([], charts6Days);
+        temp.pop();
+        this.setState({charts6Days: temp});
+
+        temp = Object.assign([], charts6Weeks);
+        temp.pop();
+        this.setState({charts6Weeks: temp});
+
+        temp = Object.assign([], charts6Months);
+        temp.pop();
+        this.setState({charts6Months: temp});
+
     }
 
     keepItFunctional(canvas){
