@@ -136,9 +136,10 @@ const GetChart = (params)=>{
         functionalConstruction(canvas){
             const ctx = canvas.getContext("2d")
             const datasets = getDataSet.call(this,this.state.selectedTimeFrame, ctx);
+            const labels = getLabels.bind(this)();
             const result = {
-                    labels: getLabels.bind(this)(),
-                    datasets: datasets
+                    labels,
+                    datasets
             }
             return result;
         }

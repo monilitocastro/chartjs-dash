@@ -24,7 +24,7 @@ const favoritesIcon = <FontIcon className="material-icons">heart rate</FontIcon>
 
 // Construct charts
 const BodyTemperatureChart = new GetChart({
-    chartType: 'pie', 
+    chartType: 'bar', 
     baseName:'Body Temp (F)',
     average: 96.8, 
     spread:7, 

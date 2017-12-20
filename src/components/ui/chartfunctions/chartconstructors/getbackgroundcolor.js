@@ -1,5 +1,5 @@
 function getBackgroundColor(ctx, i){
-    const gradient = ctx.createLinearGradient(0,0,50,500);
+    const gradient = ctx.createLinearGradient(0,0,100,500);
     const dataColor = this.state.dataColors[i];
     if(dataColor.gradient){
         dataColor.gradient.forEach( (color, i)=>{
