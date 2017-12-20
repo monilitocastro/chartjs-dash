@@ -116,7 +116,7 @@ const GetChart = (params)=>{
                 arrMonths.push(result)
             }
             let arrMonthsDS = this.genDataSet.bind(this)(arrMonths, fakeName + ' (past 6 days)');
-            console.log({arrMonthsDS});
+            //console.log({arrMonthsDS});
             
             const arrWeeks = [];
             let l = arrMonths[ticks-2], r = arrMonths[ticks-1];
@@ -134,7 +134,7 @@ const GetChart = (params)=>{
                 arrWeeks.push(result);
             }
             let arrWeeksDS = this.genDataSet.bind(this)(arrWeeks, fakeName+ ' (past 6 weeks)');
-            console.log({arrWeeksDS});
+            //console.log({arrWeeksDS});
     
             const arrDays = [];
             l = arrWeeks[ticks-2]; r = arrWeeks[ticks-1];
@@ -152,7 +152,7 @@ const GetChart = (params)=>{
                 arrDays.push(result);
             }
             let arrDaysDS = this.genDataSet.bind(this)(arrDays, fakeName + ' (past 6 months)');
-            console.log({arrDaysDS});
+            //console.log({arrDaysDS});
     
             // create new dataSet
             const dataSets = this.prepareItemForState({}, 'dataSets');
@@ -162,7 +162,7 @@ const GetChart = (params)=>{
             const packedChartsDays = this.prepareItemForState(arrDays,'charts6Days');        
             const packedChartsWeeks = this.prepareItemForState(arrWeeks,'charts6Weeks');
             const packedChartsMonths = this.prepareItemForState( arrMonths, 'charts6Months');
-            console.log({packedChartsDays})
+            //console.log({packedChartsDays})
             this.setState({charts6Days: packedChartsDays, charts6Weeks: packedChartsWeeks, charts6Months: packedChartsMonths});
     
             // store name
@@ -278,7 +278,7 @@ const GetChart = (params)=>{
         }
         hexToRGB(hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            console.log({hex})
+            //console.log({hex})
             return result ? {
                 r: parseInt(result[1], 16),
                 g: parseInt(result[2], 16),
@@ -286,18 +286,18 @@ const GetChart = (params)=>{
             } : null;
         }
         getData(chartName, i){
-            console.log('GETDATA', this.state)
+            //console.log('GETDATA', this.state)
             const result = Object.assign([], this.state[chartName][i]);
             return result;
         }
         getDataLabel(name, i){
-            console.log('GETDATALABEL', this.state)
+            //console.log('GETDATALABEL', this.state)
             const result = this.state[name][i].slice(0);
             // console.log('GETDATALABEL', result)
             return result;
         }
         getBackgroundColor(ctx, i){
-            console.log('GETBACKGROUNDCOLOR', this.state);
+            //console.log('GETBACKGROUNDCOLOR', this.state);
             const gradient = ctx.createLinearGradient(0,0,50,500);
             const dataColor = this.state.dataColors[i];
             if(dataColor.gradient){
@@ -311,27 +311,27 @@ const GetChart = (params)=>{
         }
         getDataSet(chartsName, ctx){
             const result = this.state.dataSets;
-            console.log('RESULT', result)
+            //console.log('RESULT', result)
             result.forEach( (item, i)=>{
                 item.data = this.getData.bind(this)('charts'+chartsName, i);
                 item.label = this.getDataLabel.bind(this)('chartLabels'+chartsName, i)
                 item.backgroundColor = this.getBackgroundColor.bind(this)(ctx, i);
             });
     
-            console.log('GETDATASET', {result})
+            //console.log('GETDATASET', {result})
             return result;
         }
         keepItFunctional(canvas){
             const ctx = canvas.getContext("2d")
-            console.log({canvas})
+            //console.log({canvas})
             const datasets = this.getDataSet.bind(this)(this.state.selectedTimeFrame, ctx);
-            console.log({datasets})
+            //console.log({datasets})
             const result = {
                     labels: this.state.labels,
                     datasets: datasets//this.state['charts'+this.state.selectedTimeFrame]
             }
-            console.log('KEEPITFUNCTIONAL', result);
-            console.log({state:this.state})
+            //console.log('KEEPITFUNCTIONAL', result);
+            //console.log({state:this.state})
             return result;
         }
     
