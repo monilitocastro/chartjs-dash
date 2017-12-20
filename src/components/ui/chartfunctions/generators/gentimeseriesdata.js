@@ -2,6 +2,7 @@
 import randomColor from 'randomcolor';
 import * as d3 from 'd3-interpolate';
 import faker from 'faker';
+import prepareItemForState from '../prepareitemforstate';
 
 function genTimeSeriesData( average, spread, ticks){
     const fakeName = faker.name.findName();
@@ -12,9 +13,6 @@ function genTimeSeriesData( average, spread, ticks){
         const result = Math.ceil((Math.random()-0.5) * spread) + average;
         arrMonths.push(result)
     }
-    console.log('THIS', this);
-    let arrMonthsDS = this.genDataSet.bind(this)(arrMonths, fakeName + ' (past 6 days)');
-    //console.log({arrMonthsDS});
     
     const arrWeeks = [];
     let l = arrMonths[ticks-2], r = arrMonths[ticks-1];
@@ -31,8 +29,6 @@ function genTimeSeriesData( average, spread, ticks){
         let result = interp(i/ticks) + ((Math.random()-0.5) * (1/ticks) * spread);
         arrWeeks.push(result);
     }
-    let arrWeeksDS = this.genDataSet.bind(this)(arrWeeks, fakeName+ ' (past 6 weeks)');
-    //console.log({arrWeeksDS});
 
     const arrDays = [];
     l = arrWeeks[ticks-2]; r = arrWeeks[ticks-1];
@@ -49,27 +45,25 @@ function genTimeSeriesData( average, spread, ticks){
         let result = interp(i/ticks) + ((Math.random()-0.5) * (1/ticks) * spread);
         arrDays.push(result);
     }
-    let arrDaysDS = this.genDataSet.bind(this)(arrDays, fakeName + ' (past 6 months)');
-    //console.log({arrDaysDS});
 
     // create new dataSet
-    const dataSets = this.prepareItemForState({}, 'dataSets');
+    const dataSets = prepareItemForState.bind(this)( {}, 'dataSets');
     this.setState({dataSets})
     
     // store dataset
-    const packedChartsDays = this.prepareItemForState(arrDays,'charts6Days');        
-    const packedChartsWeeks = this.prepareItemForState(arrWeeks,'charts6Weeks');
-    const packedChartsMonths = this.prepareItemForState( arrMonths, 'charts6Months');
+    const packedChartsDays = prepareItemForState.bind(this)(arrDays,'charts6Days');        
+    const packedChartsWeeks = prepareItemForState.bind(this)(arrWeeks,'charts6Weeks');
+    const packedChartsMonths = prepareItemForState.bind(this)(arrMonths, 'charts6Months');
     //console.log({packedChartsDays})
     this.setState({charts6Days: packedChartsDays, charts6Weeks: packedChartsWeeks, charts6Months: packedChartsMonths});
 
     // store name
-    const packed6DaysName = this.prepareItemForState(this.state.baseName + ": " + fakeName + " (6 days)", 'chartLabels6Days');
-    const packed6WeeksName = this.prepareItemForState(this.state.baseName + ": " + fakeName + " (6 weeks)", 'chartLabels6Weeks');
-    const packedMonthssName = this.prepareItemForState(this.state.baseName + ": " + fakeName + " (6 Months)", 'chartLabels6Months');
-    this.setState({chartLabels6Days: packed6DaysName, chartLabels6Weeks: packed6WeeksName, chartLabels6Months: packedMonthssName});
+    const packed6DaysName = prepareItemForState.bind(this)(this.state.baseName + ": " + fakeName + " (6 days)", 'chartLabels6Days');
+    const packed6WeeksName = prepareItemForState.bind(this)(this.state.baseName + ": " + fakeName + " (6 weeks)", 'chartLabels6Weeks');
+    const packedMonthsName = prepareItemForState.bind(this)(this.state.baseName + ": " + fakeName + " (6 Months)", 'chartLabels6Months');
+    this.setState({chartLabels6Days: packed6DaysName, chartLabels6Weeks: packed6WeeksName, chartLabels6Months: packedMonthsName});
 
-    this.genColors.bind(this)();
+    // genColors.bind(this).call(this);
     
 }
 

@@ -9,7 +9,12 @@ import GetChart from '../charts/mychart';
 
 
 // define functions for graphs
-import genData from '../chartfunctions/gentimeseriesdata';
+import genData from '../chartfunctions/generators/gentimeseriesdata';
+import genColors from '../chartfunctions/generators/gencolors';
+import genDates from '../chartfunctions/generators/gendates';
+
+import getDataSet from '../chartfunctions/chartconstructors/getdataset';
+import getLabels from '../chartfunctions/chartconstructors/getlabels';
 
 const recentsIcon = <FontIcon className="material-icons">temperature</FontIcon>;
 const favoritesIcon = <FontIcon className="material-icons">heart rate</FontIcon>;
@@ -26,7 +31,7 @@ const BodyTemperatureChart = new GetChart({
     ticks: 6, 
     mainColor: 
     'orange', 
-    genData,
+    genData, genColors, genDates, getDataSet, getLabels
 });
 const HeartRateChart = new GetChart({
     baseName:'Heart Rate (bpm)', 
@@ -34,7 +39,7 @@ const HeartRateChart = new GetChart({
     spread:15, 
     ticks: 6, 
     mainColor: 'pink',
-    genData
+    genData, genColors, genDates, getDataSet, getLabels
 });
 
 
