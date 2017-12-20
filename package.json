@@ -13,8 +13,6 @@
     "prop-types": "^15.6.0",
     "randomcolor": "^0.5.3",
     "react": "^16.2.0",
-    "react-chartjs": "^0.8.0",
-    "react-chartjs-2": "^2.6.4",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",

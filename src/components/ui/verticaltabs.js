@@ -33,10 +33,6 @@ class VerticalTabs extends Component{
         this.props.getTabs(this.props.groupName);
     }
 
-    renderMenuItems(menuItems){
-        const menuList = [];
-
-    }
 
     render(){
         if( this.state.asideTabContext && 

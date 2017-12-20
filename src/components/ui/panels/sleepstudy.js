@@ -10,11 +10,9 @@ import GetChart from '../charts/mychart';
 
 // define functions for graphs
 import genData from '../chartfunctions/generators/gentimeseriesdata';
-import genColors from '../chartfunctions/generators/gencolors';
 import genMultiColors from '../chartfunctions/generators/genmulticolors';
 import genDates from '../chartfunctions/generators/gendates';
 
-import getDataSet from '../chartfunctions/chartconstructors/getdataset';
 import getLabels from '../chartfunctions/chartconstructors/getlabels';
 import getDataSetMultiColor from '../chartfunctions/chartconstructors/getdatasetmulticolor';
 

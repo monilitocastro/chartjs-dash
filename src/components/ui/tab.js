@@ -7,7 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
  * @param {*} props 
  */
 const Tab = (props)=>{
-    const {text, id, selectTab, groupName, isHighlighted} = props;
+    const {text, id,  groupName, isHighlighted} = props;
     return <MenuItem onClick={(ev)=>{
         props.selectTab(groupName, id);
     }}

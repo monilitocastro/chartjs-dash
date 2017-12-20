@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 
 import { Line, Bar, Pie } from './chartjs';
 
-import randomColor from 'randomcolor';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';

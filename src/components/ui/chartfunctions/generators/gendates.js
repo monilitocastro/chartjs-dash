@@ -21,9 +21,9 @@ function genDates(){
     }
     console.log('GENDATES', dates6DaysArr, dates6WeeksArr, dates6MonthsArr)
     
-    const dates6Days = prepareItemForState.bind(this)(dates6DaysArr, 'dates6Days');
-    const dates6Weeks = prepareItemForState.bind(this)(dates6WeeksArr, 'dates6Weeks');
-    const dates6Months = prepareItemForState.bind(this)(dates6MonthsArr, 'dates6Months');
+    // const dates6Days = prepareItemForState.bind(this)(dates6DaysArr, 'dates6Days');
+    // const dates6Weeks = prepareItemForState.bind(this)(dates6WeeksArr, 'dates6Weeks');
+    // const dates6Months = prepareItemForState.bind(this)(dates6MonthsArr, 'dates6Months');
     this.setState({dates6Days: dates6DaysArr, dates6Weeks: dates6WeeksArr, dates6Months:dates6MonthsArr});
     
 }

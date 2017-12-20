@@ -1,8 +1,6 @@
 
 import { ALL_VITAL_SIGNS_FETCHED, SELECT_TAB,  TABS_FETCH_SUCCESS} from './types';
 
-const basePathTemplateServer = 'http://localhost:3004';
-const basePathDataServer = 'http://localhost:3005';
 
 // -----------------------------------------TABS-----------------------------------------
 export function getTabs(groupName){
