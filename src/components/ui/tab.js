@@ -15,11 +15,3 @@ const Tab = (props)=>{
 };
 
 export default Tab;
-
-
-
-/*
-            <MenuItem style={{color:'#aaa'}}>CARDIO</MenuItem>
-            <MenuItem style={{color:'#aaa'}}>CMP</MenuItem>
-            <MenuItem style={{color:'#aaa'}}>LIVER FUNCTION</MenuItem>
-            */

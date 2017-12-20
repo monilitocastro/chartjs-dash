@@ -7,7 +7,6 @@ export function tabContextReducers( state = {}, action ){
         case TABS_FETCH_SUCCESS:
             return { ...state, asideTabContext: action.asideTabContext }
         case SELECT_TAB:
-        console.log('selectedid', action.selectedId)
             return { ...state, groupName: action.groupName, selectedId: action.selectedId}
         default:
             return state;
