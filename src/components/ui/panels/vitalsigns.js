@@ -11,7 +11,7 @@ const recentsIcon = <FontIcon className="material-icons">temperature</FontIcon>;
 const favoritesIcon = <FontIcon className="material-icons">heart rate</FontIcon>;
 // const nearbyIcon = <IconLocationOn />;
 
-const BodyTemperatureChart = new GetChart({baseName:'Body Temp (F)', average: 96.8, spread:7, ticks: 6, mainColor: 'orange'});
+const BodyTemperatureChart = new GetChart({chartType: 'pie', baseName:'Body Temp (F)', average: 96.8, spread:7, ticks: 6, mainColor: 'orange', uniqueColorsForEachDatum: 'true'});
 const HeartRateChart = new GetChart({baseName:'Heart Rate (bpm)', average: 70, spread:15, ticks: 6, mainColor: 'pink'});
 
   
