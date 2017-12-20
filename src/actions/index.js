@@ -14,12 +14,8 @@ export function getTabs(groupName){
                         "id": "VITAL_SIGNS"
                     },
                     {
-                        "text": "BLOOD PANEL",
-                        "id": "BLOOD_PANEL"
-                    },
-                    {
-                        "text": "LIVER PANEL",
-                        "id": "LIVER_PANEL"
+                        "text": "SLEEP STUDY",
+                        "id": "SLEEP_STUDY"
                     }
                 ]
             

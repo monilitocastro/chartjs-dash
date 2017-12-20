@@ -18,32 +18,22 @@ import getDataSet from '../chartfunctions/chartconstructors/getdataset';
 import getLabels from '../chartfunctions/chartconstructors/getlabels';
 import getDataSetMultiColor from '../chartfunctions/chartconstructors/getdatasetmulticolor';
 
-const recentsIcon = <FontIcon className="material-icons">temperature</FontIcon>;
-const favoritesIcon = <FontIcon className="material-icons">heart rate</FontIcon>;
+const sleepIcon = <FontIcon className="material-icons">sleep</FontIcon>;
 // const nearbyIcon = <IconLocationOn />;
 
 
 
 // Construct charts
-const BodyTemperatureChart = new GetChart({
-    chartType: 'line', 
-    baseName:'Body Temp (F)',
-    average: 96.8, 
-    spread:40, 
+const SleepStudy = new GetChart({
+    chartType: 'bar', 
+    baseName:'Sleep Hours',
+    average:8, 
+    spread:6, 
     ticks: 6, 
     mainColor: 
-    'orange', 
-    genData, genColors, genDates, getDataSet, getLabels
+    'blue', 
+    genData, genColors:genMultiColors, genDates, getDataSet:getDataSetMultiColor, getLabels
 });
-const HeartRateChart = new GetChart({
-    baseName:'Heart Rate (bpm)', 
-    average: 70, 
-    spread:15, 
-    ticks: 6, 
-    mainColor: 'pink',
-    genData, genColors, genDates, getDataSet, getLabels
-});
-
 class VitalSigns extends Component{
     constructor(props){
         super(props);
@@ -59,14 +49,9 @@ class VitalSigns extends Component{
                 <Paper zDepth={1}>
                     <BottomNavigation selectedIndex={this.state.selectedIndex}>
                     <BottomNavigationItem
-                        label="Body Temperature"
-                        icon={recentsIcon}
+                        label="Sleep Hours"
+                        icon={sleepIcon}
                         onClick={() => this.select(0)}
-                    />
-                    <BottomNavigationItem
-                        label="Heart Rate"
-                        icon={favoritesIcon}
-                        onClick={() => this.select(1)}
                     />
                     </BottomNavigation>
                 </Paper>
@@ -81,9 +66,7 @@ class VitalSigns extends Component{
     getChart(){
         switch(this.state.selectedIndex){
         case 0:
-            return (<BodyTemperatureChart />)
-        case 1:
-            return (<HeartRateChart />)
+            return (<SleepStudy />)
         default:
             return (<div></div>)
         }

@@ -4,6 +4,8 @@ import * as actions from '../../actions/index';
 
 import VitalSigns from './panels/vitalsigns'
 
+import SleepStudy from './panels/sleepstudy'
+
 class MainPanel extends Component {
     constructor(props){
         super(props);
@@ -28,13 +30,15 @@ class MainPanel extends Component {
     }
     getPanel(){
         const { selectedTabId } = this.state;
-        console.log('GETPANEL', selectedTabId)
         if(selectedTabId==='VITAL_SIGNS'){
             return(<VitalSigns />);
+        }else if(selectedTabId==='SLEEP_STUDY'){
+            return(<SleepStudy />);
         }else{
             return (<div></div>);
         }
     }
+
 }
 
 

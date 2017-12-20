@@ -17,25 +17,7 @@ span {
 .fw-300 { font-weight: 300; }
 .fw-400 { font-weight: 400; }
 .fw-500 { font-weight: 500; }
-.fw-700 { font-weight: 700; }
-.fw-900 { font-weight: 900; }
 
-.no-variant {
-    color: #b13131;
-}
-.no-variant::after {
-    background-color: #b13131;
-    color: #eee;
-    content: 'Does not exist in font family';
-    font-family: Arial;
-    font-size: .5em;
-    margin-left: .25em;
-    padding: .25em;
-    vertical-align: top;
-}
-.ignorethisselector{
-  color: #D35600;
-}
 
 body{
   font-family: Roboto;
@@ -56,8 +38,11 @@ body{
   color: #8DCEF8;
   background-color: #4E4E4E;
 }
-.appLogoBar{
+.appLogoBar div{
   position: 'fixed';
+  top: 0;
+  left: 0;
+  z-index: 999;
   margin: 'auto';
   width: '100%';
   height: 'auto';
@@ -101,9 +86,12 @@ body{
 
 .grid-layout-top-controls{
   position: relative;
-  display: grid;
-  grid-template-columns: 120px auto;
-  margin: 5px 40px;
+  width: 25%;
+  margin: 0 auto;
+}
+
+.grid-layout-top-controls div{
+  display: inline;
 }
 .grid-layout-bottom-display{
   position: relative;
@@ -113,9 +101,3 @@ body{
   margin-left:150px;
   margin-right:150px;
 }
-/*
-.box {
-  background-color: #444;
-  color: #fff;
-  font-size: 150%;
-}*/

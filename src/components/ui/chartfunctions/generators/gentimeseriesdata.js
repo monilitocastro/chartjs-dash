@@ -11,6 +11,7 @@ function genTimeSeriesData( average, spread, ticks){
     const arrMonths = [];
     for(var i=0;i<ticks;i++){
         const result = Math.ceil((Math.random()-0.5) * spread) + average;
+        console.log('STATS: ', result, average, spread, ticks);
         arrMonths.push(result)
     }
     

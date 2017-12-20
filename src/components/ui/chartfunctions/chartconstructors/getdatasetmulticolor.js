@@ -11,7 +11,7 @@ function getDataSet(chartsName, ctx){
     const result = this.state.dataSets;
     const getData = new CreateDataAccessor(this.state);
     const getDataLabel = new CreateDataLabelAccessor(this.state);
-    const getBackgroundColor = new CreateBackgroundColorAccessor(this.state);
+    const getBackgroundColor = new CreateBackgroundColorAccessor(this.state, 'multicolor');
     const getDataSet = (new CreateDataSetAccessor(this.state, getBackgroundColor, getDataLabel, getData)).run();
     
 

@@ -41,7 +41,7 @@ const GetChart = (params)=>{
 
         componentDidMount(){
             // this.setState({interval:this.interval.bind(this)()});
-            genData.call(this, this.state.gendata.average, this.state.gendata.spread, this.state.gendata.ticks);
+            genData.call(this, average, spread, ticks);
             genColors.call(this);
             genDates.call(this);
         }
@@ -62,9 +62,9 @@ const GetChart = (params)=>{
                             </FloatingActionButton>
                         </div> 
                         <div>
-                            <FlatButton label="6 Days"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Days')}} disabled={disabled} />
-                            <FlatButton label="6 Weeks"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Weeks')}} disabled={disabled} />
-                            <FlatButton label="6 Months"  fullWidth={true} onClick={()=>{this.selectTimeFrame.bind(this)('6Months')}} disabled={disabled} />
+                            <FlatButton label="6 Days"  fullWidth={false} onClick={()=>{this.selectTimeFrame.bind(this)('6Days')}} disabled={disabled} />
+                            <FlatButton label="6 Weeks"  fullWidth={false} onClick={()=>{this.selectTimeFrame.bind(this)('6Weeks')}} disabled={disabled} />
+                            <FlatButton label="6 Months"  fullWidth={false} onClick={()=>{this.selectTimeFrame.bind(this)('6Months')}} disabled={disabled} />
                         </div> 
                     </div>              
                     <div className="chart-display">
