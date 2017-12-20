@@ -15,7 +15,6 @@ const GetChart = (params)=>{
         constructor(props){
             super(props);
             this.state={
-                sampleData: [[1,2,4,6,2,4],[2,4,3,1,2,4],[1,4,3,5,6,2],[1,2,4,5,3,4]],
                 baseName,
                 charts6Days: [],
                 charts6Weeks: [],
@@ -28,16 +27,8 @@ const GetChart = (params)=>{
                 chartLabels6Days: [],
                 chartLabels6Weeks: [],
                 chartLabels6Months: [],
-                // data: [{
-                //     data:[2,4,5,3,4,2],
-                //     label:'4',
-                //     backgroundColor: randomColor({
-                //                         hue: 'orange'
-                //                     })
-                // }],
                 dataSets: [],
-                labels: ["1am", "2am", "3am","4am", "5am", "6am"],
-                counter: 0,
+                labels: [],
                 gendata: {
                     average,
                     spread,
@@ -112,8 +103,6 @@ const GetChart = (params)=>{
             temp.pop();
             this.setState({charts6Months: temp});
     
-            
-            
             // chart labels
             temp = Object.assign([], chartLabels6Days);
             temp.pop();
@@ -144,17 +133,6 @@ const GetChart = (params)=>{
                 return(<Line data={this.functionalConstruction.bind(this)} options={{ responsive:true, height: '100%'}}/>);
             }
         }
-        getData(chartName, i){
-            const result = Object.assign([], this.state[chartName][i]);
-            return result;
-        }
-        getDataLabel(name, i){
-            const result = this.state[name][i].slice(0);
-            return result;
-        }
-
-
-
         functionalConstruction(canvas){
             const ctx = canvas.getContext("2d")
             const datasets = getDataSet.call(this,this.state.selectedTimeFrame, ctx);
