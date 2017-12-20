@@ -1,0 +1,18 @@
+
+function CreateBackgroundColorAccessor(state){
+    return function getBackgroundColor(ctx, i){
+        const gradient = ctx.createLinearGradient(0,0,100,500);
+        const dataColor = state.dataColors[i];
+        if(dataColor.gradient){
+            dataColor.gradient.forEach( (color, i)=>{
+                gradient.addColorStop(i, color);
+            })
+            return gradient;
+        }else{
+            return dataColor.color;
+        }
+    }
+}
+
+
+export default CreateBackgroundColorAccessor;

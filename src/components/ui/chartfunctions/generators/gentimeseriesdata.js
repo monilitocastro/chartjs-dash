@@ -63,8 +63,6 @@ function genTimeSeriesData( average, spread, ticks){
     const packedMonthsName = prepareItemForState.bind(this)(this.state.baseName + ": " + fakeName + " (6 Months)", 'chartLabels6Months');
     this.setState({chartLabels6Days: packed6DaysName, chartLabels6Weeks: packed6WeeksName, chartLabels6Months: packedMonthsName});
 
-    // genColors.bind(this).call(this);
-    
 }
 
 export default genTimeSeriesData;
