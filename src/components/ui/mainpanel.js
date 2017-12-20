@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/index';
 
-import VitalSignsPanel from './panels/vitalsigns'
+import VitalSigns from './panels/vitalsigns'
 
 class MainPanel extends Component {
     constructor(props){
         super(props);
         this.state = {            
-            selectedTabId: 'VITAL_SIGNS',
+            selectedTabId: '',
         };
     }
 
@@ -29,11 +29,10 @@ class MainPanel extends Component {
     getPanel(){
         const { selectedTabId } = this.state;
         console.log('GETPANEL', selectedTabId)
-        switch(selectedTabId){
-            case 'VITAL_SIGNS':
-                return (<VitalSignsPanel />)
-            default:
-                return (<div></div>)
+        if(selectedTabId==='VITAL_SIGNS'){
+            return(<VitalSigns />);
+        }else{
+            return (<div></div>);
         }
     }
 }

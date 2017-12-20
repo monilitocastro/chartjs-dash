@@ -5,6 +5,7 @@ import update from 'immutability-helper';
 import randomColor from 'randomcolor';
 import * as d3 from 'd3-interpolate';
 import faker from 'faker';
+import moment from 'moment';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -62,24 +63,8 @@ const GetChart = (params)=>{
             this.genData.bind(this)(this.state.gendata.average, this.state.gendata.spread, this.state.gendata.ticks);
             // generate dataset and load into this.state.data
             const genDataSet = this.genDataSet.bind(this)();
-            console.log({genDataSet})
+            this.genDates.bind(this)();
         }
-        interval(){
-            return setInterval(()=>{
-                const orangey = randomColor({
-                    hue: 'orange'
-                });
-                const data = {
-                    data: this.state.sampleData[this.state.counter],
-                    label: this.state.counter,
-                    backgroundColor: orangey,
-                    lineColor: orangey
-                };
-                this.state.data.push(data); //update(oldData, {$push: this.state.sampleData[this.state.counter]})
-                this.setState({counter: this.state.counter+1})
-            }, 1000);
-        }
-
         genColorName(exceptColor){
             const colorArray = [
                 'orange',
@@ -181,26 +166,38 @@ const GetChart = (params)=>{
         
             
         }
+        genDates(){
+            const { ticks } = this.state.gendata;
+            const dateDays = moment();
+            const dateWeeks = moment();
+            const dateMonths = moment();
+            dateDays.hour(12).minute(0).second(0);
+            dateWeeks.hour(12).minute(0).second(0);
+            dateMonths.hour(12).minute(0).second(0);
+            const dates6DaysArr = [], dates6WeeksArr = [], dates6MonthsArr = [];
+            for(var i=0;i<ticks;i++){
+                dates6DaysArr.unshift(dateDays.format('ddd, MMM DD, YYYY'))
+                dates6WeeksArr.unshift(dateWeeks.format('ddd, MMM DD, YYYY'))
+                dates6MonthsArr.unshift(dateMonths.format('ddd, MMM DD, YYYY'))
+                dateDays.subtract(1, 'day');
+                dateWeeks.subtract(1, 'week');
+                dateMonths.subtract(1, 'month');
+            }
+            console.log('GENDATES', dates6DaysArr, dates6WeeksArr, dates6MonthsArr)
+            
+            const dates6Days = this.prepareItemForState(dates6DaysArr, 'dates6Days');
+            const dates6Weeks = this.prepareItemForState(dates6WeeksArr, 'dates6Weeks');
+            const dates6Months = this.prepareItemForState(dates6MonthsArr, 'dates6Months');
+            this.setState({dates6Days: dates6DaysArr, dates6Weeks: dates6WeeksArr, dates6Months:dates6MonthsArr});
+            
+        }
         prepareItemForState(newDaysData, accessDaysName){
             const days = this.state[accessDaysName];
             const packedDays = update(days,{$push: [newDaysData]});
             return packedDays;
         }
-        prepareForState({newDaysData,newWeeksData,newMonthsData, accessDaysName, accessWeeksName, accessMonthsName}){
-            const days = this.state[accessDaysName];
-            const weeks = this.state[accessWeeksName];
-            const months = this.state[accessMonthsName];
-    
-            const packedDays = update(days,{$push: [newDaysData]});
-    
-            const packedWeeks = update(weeks, {$push: [newWeeksData] });
-    
-            const packedMonths = update(months, {$push: [newMonthsData]});
-            const result = {packedDays, packedWeeks, packedMonths};
-            // console.log({result})
-            return result;
-        }
         render(){
+            console.log('RENDER', this.state)
             if(this.state.counter===4){clearInterval(this.state.interval)};
             const disabled = this.state['charts'+this.state.selectedTimeFrame].length===0;
     
@@ -222,7 +219,7 @@ const GetChart = (params)=>{
                         </div> 
                     </div>              
                     <div className="chart-display">
-                        <Line data={this.keepItFunctional.bind(this)} options={{ responsive:true, height: '100%'}}/>
+                        <Line data={this.functionalConstruction.bind(this)} options={{ responsive:true, height: '100%'}}/>
                     </div>
                 </div>
             )
@@ -276,28 +273,15 @@ const GetChart = (params)=>{
             this.setState({dataSets: temp});
     
         }
-        hexToRGB(hex) {
-            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            //console.log({hex})
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
         getData(chartName, i){
-            //console.log('GETDATA', this.state)
             const result = Object.assign([], this.state[chartName][i]);
             return result;
         }
         getDataLabel(name, i){
-            //console.log('GETDATALABEL', this.state)
             const result = this.state[name][i].slice(0);
-            // console.log('GETDATALABEL', result)
             return result;
         }
         getBackgroundColor(ctx, i){
-            //console.log('GETBACKGROUNDCOLOR', this.state);
             const gradient = ctx.createLinearGradient(0,0,50,500);
             const dataColor = this.state.dataColors[i];
             if(dataColor.gradient){
@@ -311,27 +295,28 @@ const GetChart = (params)=>{
         }
         getDataSet(chartsName, ctx){
             const result = this.state.dataSets;
-            //console.log('RESULT', result)
             result.forEach( (item, i)=>{
                 item.data = this.getData.bind(this)('charts'+chartsName, i);
                 item.label = this.getDataLabel.bind(this)('chartLabels'+chartsName, i)
                 item.backgroundColor = this.getBackgroundColor.bind(this)(ctx, i);
             });
     
-            //console.log('GETDATASET', {result})
             return result;
         }
-        keepItFunctional(canvas){
+        getLabels(){
+            const { selectedTimeFrame } = this.state;
+            const name = 'dates' + selectedTimeFrame;
+            const result = this.state[name];
+            console.log('GETLABELS', result);
+            return result;
+        }
+        functionalConstruction(canvas){
             const ctx = canvas.getContext("2d")
-            //console.log({canvas})
             const datasets = this.getDataSet.bind(this)(this.state.selectedTimeFrame, ctx);
-            //console.log({datasets})
             const result = {
-                    labels: this.state.labels,
-                    datasets: datasets//this.state['charts'+this.state.selectedTimeFrame]
+                    labels: this.getLabels.bind(this)(),
+                    datasets: datasets
             }
-            //console.log('KEEPITFUNCTIONAL', result);
-            //console.log({state:this.state})
             return result;
         }
     
