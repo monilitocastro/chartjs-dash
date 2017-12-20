@@ -7,14 +7,37 @@ import Paper from 'material-ui/Paper';
 
 import GetChart from '../charts/mychart';
 
+
+// define functions for graphs
+import genData from '../chartfunctions/gentimeseriesdata';
+
 const recentsIcon = <FontIcon className="material-icons">temperature</FontIcon>;
 const favoritesIcon = <FontIcon className="material-icons">heart rate</FontIcon>;
 // const nearbyIcon = <IconLocationOn />;
 
-const BodyTemperatureChart = new GetChart({chartType: 'pie', baseName:'Body Temp (F)', average: 96.8, spread:7, ticks: 6, mainColor: 'orange', uniqueColorsForEachDatum: 'true'});
-const HeartRateChart = new GetChart({baseName:'Heart Rate (bpm)', average: 70, spread:15, ticks: 6, mainColor: 'pink'});
 
-  
+
+// Construct charts
+const BodyTemperatureChart = new GetChart({
+    chartType: 'pie', 
+    baseName:'Body Temp (F)',
+    average: 96.8, 
+    spread:7, 
+    ticks: 6, 
+    mainColor: 
+    'orange', 
+    genData,
+});
+const HeartRateChart = new GetChart({
+    baseName:'Heart Rate (bpm)', 
+    average: 70, 
+    spread:15, 
+    ticks: 6, 
+    mainColor: 'pink',
+    genData
+});
+
+
 
 class VitalSigns extends Component{
     constructor(props){

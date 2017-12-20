@@ -13,7 +13,7 @@ import ContentRemove from 'material-ui/svg-icons/content/remove';
 import FlatButton from 'material-ui/FlatButton';
 
 const GetChart = (params)=>{
-    const { chartType, baseName, average, spread, ticks, mainColor } = params;
+    const { chartType, genData, baseName, average, spread, ticks, mainColor } = params;
     return class MyChart extends Component{
         constructor(props){
             super(props);
@@ -60,7 +60,7 @@ const GetChart = (params)=>{
         }
         componentDidMount(){
             // this.setState({interval:this.interval.bind(this)()});
-            this.genData.bind(this)(this.state.gendata.average, this.state.gendata.spread, this.state.gendata.ticks);
+            genData.call(this, this.state.gendata.average, this.state.gendata.spread, this.state.gendata.ticks);
             // generate dataset and load into this.state.data
             const genDataSet = this.genDataSet.bind(this)();
             this.genDates.bind(this)();
@@ -87,85 +87,6 @@ const GetChart = (params)=>{
             }
         }
     
-        genData_OLD(average, spread, ticks){
-            const fakeName = faker.name.findName();
-            const bgColor1 = randomColor({
-                hue: this.genColorName.bind(this)(this.state.mainColor)
-            });
-            const bgColor2 =  this.state.mainColor
-    
-            if(ticks===0){ return; }
-            const arrMonths = [];
-            for(var i=0;i<ticks;i++){
-                const result = Math.ceil((Math.random()-0.5) * spread) + average;
-                arrMonths.push(result)
-            }
-            let arrMonthsDS = this.genDataSet.bind(this)(arrMonths, fakeName + ' (past 6 days)');
-            //console.log({arrMonthsDS});
-            
-            const arrWeeks = [];
-            let l = arrMonths[ticks-2], r = arrMonths[ticks-1];
-            let interp = d3.interpolate(l, r);
-            for(var i=0;i<ticks;i++){
-                if(i===0) {
-                    arrWeeks.push(l);
-                    continue
-                } 
-                if(i===ticks-1) {
-                    arrWeeks.push(r);
-                    continue
-                }
-                let result = interp(i/ticks) + ((Math.random()-0.5) * (1/ticks) * spread);
-                arrWeeks.push(result);
-            }
-            let arrWeeksDS = this.genDataSet.bind(this)(arrWeeks, fakeName+ ' (past 6 weeks)');
-            //console.log({arrWeeksDS});
-    
-            const arrDays = [];
-            l = arrWeeks[ticks-2]; r = arrWeeks[ticks-1];
-            interp = d3.interpolate(l, r);
-            for(var i=0;i<ticks;i++){
-                if(i===0) {
-                    arrDays.push(l);
-                    continue
-                } 
-                if(i===ticks-1) {
-                    arrDays.push(r);
-                    continue
-                }
-                let result = interp(i/ticks) + ((Math.random()-0.5) * (1/ticks) * spread);
-                arrDays.push(result);
-            }
-            let arrDaysDS = this.genDataSet.bind(this)(arrDays, fakeName + ' (past 6 months)');
-            //console.log({arrDaysDS});
-    
-            // create new dataSet
-            const dataSets = this.prepareItemForState({}, 'dataSets');
-            this.setState({dataSets})
-            
-            // store dataset
-            const packedChartsDays = this.prepareItemForState(arrDays,'charts6Days');        
-            const packedChartsWeeks = this.prepareItemForState(arrWeeks,'charts6Weeks');
-            const packedChartsMonths = this.prepareItemForState( arrMonths, 'charts6Months');
-            //console.log({packedChartsDays})
-            this.setState({charts6Days: packedChartsDays, charts6Weeks: packedChartsWeeks, charts6Months: packedChartsMonths});
-    
-            // store name
-            const packed6DaysName = this.prepareItemForState(this.state.baseName + ": " + fakeName + " (6 days)", 'chartLabels6Days');
-            const packed6WeeksName = this.prepareItemForState(this.state.baseName + ": " + fakeName + " (6 weeks)", 'chartLabels6Weeks');
-            const packedMonthssName = this.prepareItemForState(this.state.baseName + ": " + fakeName + " (6 Months)", 'chartLabels6Months');
-            this.setState({chartLabels6Days: packed6DaysName, chartLabels6Weeks: packed6WeeksName, chartLabels6Months: packedMonthssName});
-    
-            // store colors
-            let backgroundColors = {
-                gradient: [bgColor1, bgColor2],
-                color: bgColor1
-            }
-            const packedBGColors = this.prepareItemForState(backgroundColors, 'dataColors');        
-            this.setState({dataColors: packedBGColors});
-        
-            
-        }
         genData(average, spread, ticks){
             const fakeName = faker.name.findName();
 
@@ -313,7 +234,7 @@ const GetChart = (params)=>{
         }
     
         handleAddButton(){
-            this.genData.bind(this)(this.state.gendata.average, this.state.gendata.spread, this.state.gendata.ticks);
+            genData.call(this, this.state.gendata.average, this.state.gendata.spread, this.state.gendata.ticks);
         }
     
         handleRemoveButton(){
